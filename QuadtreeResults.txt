@@ -1,0 +1,170 @@
+Reading: 0.0107589
+Construction: 0.00978107
+Reclass/Pruning: 86.5029
+Output: 0.031275
+
+Reading: 0.00684589
+Construction: 0.00782394
+Reclass/Pruning: 0.015648
+Output: 0.0420539
+
+Reading: 0.00880207
+Construction: 0.0088019
+Reclass/Pruning: 0.018582
+Output: 0.0528121
+
+Reading: 0.00880196
+Construction: 0.00880203
+Reclass/Pruning: 0.0195601
+Output: 0.114426
+
+Reading: 0.006846
+Construction: 0.00880206
+Reclass/Pruning: 0.0185819
+Output: 0.047922
+
+Reading: 0.0097801
+Construction: 0.00977993
+Reclass/Pruning: 0.023472
+Output: 0.0469439
+
+Reading: 0.00879088
+Construction: 0.00879107
+Reclass/Pruning: 0.019534
+Output: 0.0517651
+
+Reading: 0.00879601
+Construction: 0.00781904
+Reclass/Pruning: 0.0166161
+Output: 0.121198
+
+Reading: 0.00488396
+Construction: 0.00781396
+Reclass/Pruning: 0.014652
+Output: 0.183638
+
+Reading: 0.00488312
+Construction: 0.00781407
+Reclass/Pruning: 0.0166039
+Output: 0.0449279
+
+Reading: 0.0058619
+Construction: 0.0087931
+Reclass/Pruning: 0.0185629
+Output: 0.0762061
+
+Reading: 0.00488299
+Construction: 0.0117189
+Reclass/Pruning: 0.019532
+Output: 0.053713
+
+Reading: 0.00390706
+Construction: 0.0097661
+Reclass/Pruning: 0.020508
+Output: 0.0615259
+
+Reading: 0.0048851
+Construction: 0.0107469
+Reclass/Pruning: 0.0185629
+Output: 0.0478731
+
+Reading: 0.00488393
+Construction: 0.00781293
+Reclass/Pruning: 0.0156269
+Output: 0.040045
+
+Reading: 0.00586006
+Construction: 0.010743
+Reclass/Pruning: 0.0195321
+Output: 0.049807
+
+Reading: 0.0156361
+Construction: -9.44128e-008
+Reclass/Pruning: 0.0156359
+Output: 0.046908
+
+Reading: -2.33995e-008
+Construction: 0.015636
+Reclass/Pruning: 0.015636
+Output: 0.062544
+
+Reading: 0.0156361
+Construction: 9.12696e-008
+Reclass/Pruning: 0.0312731
+Output: 0.046908
+
+Reading: -8.3819e-008
+Construction: 0.0156359
+Reclass/Pruning: 0.0156359
+Output: 0.046909
+
+Reading: 1.12923e-008
+Construction: 1.12923e-008
+Reclass/Pruning: 0.015636
+Output: 0.0469081
+
+Reading: 9.28994e-008
+Construction: 0.0156371
+Reclass/Pruning: 0.0156359
+Output: 0.062544
+
+Reading: 3.79683
+Construction: 3.56245
+Reclass/Pruning: 3.39058
+Output: 4.39057
+
+Reading: 0.172008
+Construction: 2.65678
+Reclass/Pruning: 0.930806
+Output: 2.42875
+
+Reading: 0.126451
+Construction: 2.38117
+Reclass/Pruning: 0.861812
+Output: 1.56605
+
+Reading: 0.005887
+Construction: 0.00981197
+Reclass/Pruning: 0.0186431
+Output: 0.06476
+
+Reading: 8.16555
+Construction: 2.63158
+Reclass/Pruning: 3.80933
+Output: 6.84936
+
+Reading: 0.00586307
+Construction: 0.00781912
+Reclass/Pruning: 0.0185689
+Output: 0.0645019
+
+Reading: 0.00586389
+Construction: 0.00781799
+Reclass/Pruning: 0.018569
+Output: 0.051797
+
+Reading: 3.02181
+Construction: 1.8471
+Reclass/Pruning: 3.40491
+Output: 5.98498
+
+Reading: 0.00390803
+Construction: 0.00683811
+Reclass/Pruning: 0.01563
+Output: 0.047868
+
+Reading: 2.44778
+Construction: 2.06753
+Reclass/Pruning: 3.43779
+Output: 6.47685
+
+Reading: 7.82106
+Construction: 1.83835
+Reclass/Pruning: 3.50199
+Output: 5.36782
+
+Reading: 2.11618
+Construction: 1.60082
+Reclass/Pruning: 2.75474
+Output: 2.87894
+

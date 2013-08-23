@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1167177846/PATH/delimiter=;
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1167177846/PATH/operation=replace
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1167177846/PATH/value=C\:\\Users\\bpassuello-pr\\Downloads\\eclipse-cpp-kepler-R-win32-x86_64\\eclipse;C\:\\Program Files (x86)\\Windows Resource Kits\\Tools\\;C\:\\Windows\\system32;C\:\\Windows;C\:\\Windows\\System32\\Wbem;C\:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C\:\\Python27\\ArcGIS10.1;C\:\\OSGeo4W;C\:\\Program Files (x86)\\ArcGIS\\Desktop10.1\\arcpy;C\:\\MinGW\\bin;C\:\\Program Files (x86)\\Java\\jre7\\bin;C\:\\Program Files\\TortoiseGit\\bin;C\:\\Program Files (x86)\\Git\\cmd;C\:\\Program Files (x86)\\GnuWin32\\bin
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1167177846/append=true
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1167177846/appendContributed=true

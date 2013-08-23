@@ -43,6 +43,7 @@ enum QT_ERR{
     NO_ERROR
 };
 
+static int maxlevel = 0;
 static int emptyValue=255;
 static char* outformat = "HFA";
 

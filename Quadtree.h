@@ -55,20 +55,14 @@ class Quadtree {
         int     width;      /**< Holds the width of the node at the root */
         int     height;     /**< Holds the height of the node at the root */
         int     value;      /**< Holds the theme value if the node is homogeneous */
-        int     level;      /**< Holds the level of the quadtree that the root is at */
-        int     maxlevel;   /**< Holds the maximum level number of the quadtree */
-        int     nodes;      /**< Holds the number of nodes in the tree */
-        int     leaves;     /**< Holds the number of leaves in the tree */
-        string  name;       /**< Holds the name of the node to be used for output */
+        //int     level;      /**< Holds the level of the quadtree that the root is at */
 
-        int     UpdateNodes();
-        int     UpdateLeaves();
         float** RebuildImage(float**);
         float** VerifyCoverage(float**);
 
     private:
 
-        Quadtree(Quadtree*, float**,int,int,int,int,int,int); /**< Constructor that will be used in the building of the tree */
+        Quadtree(float**,int,int,int,int,int); /**< Constructor that will be used in the building of the tree */
 
         void SaveSubtree(string fname); /**< Helper method */
 
@@ -76,7 +70,6 @@ class Quadtree {
         Quadtree* SW;     /**< Holds the southwest child */
         Quadtree* SE;     /**< Holds the southeast child */
         Quadtree* NE;     /**< Holds the northeast child */
-        Quadtree* Parent;/**< Holds the parent node */
 };
 
 #endif /* QUADTREE_H_ */

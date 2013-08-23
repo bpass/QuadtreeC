@@ -1,11 +1,11 @@
 #include "main.h"
 //#include "Windows.h"
 
-//string			inimgfn = "Images\/denvermsa.img";
-string 			inimgfn = "Images\/downtown.img";
-//string          inimgfn = "Images\\colorado_nlcd.img";
+//string			inimgfn = "Images\\denvermsa.img";
+//string 			inimgfn = "Images\\downtown.img";
+string          inimgfn = "Images\\colorado_nlcd.img";
 
-string 			outimgfn = "Results\/reclassified_image1.img";
+string 			outimgfn = "Results\\reclassified_image1.img";
 GDALColorTable*	colorTable;
 Quadtree*     	original_tree;
 Quadtree*    	reclass_tree;
@@ -14,6 +14,19 @@ int         	xsize = 0;
 int         	ysize = 0;
 
 GDALDatasetH hDataset;
+
+
+struct qnode{
+	int m;
+	int x;
+	struct qnode* a;
+	struct qnode* b;
+	struct qnode* c;
+	struct qnode* d;
+};
+
+
+float** readImageC2(GDALDatasetH);
 
 double times[] = {0,0,0,0};
 
@@ -38,23 +51,23 @@ QT_ERR dumpToFile(float** img,int w, int h, string fname){
     return (QT_ERR)NO_ERROR;
 }
 
+#include "Myint.h"
 /**
  * \brief This is the main function that creates a quadtree.
  */
 int main(int argc, char* argv[]){
+	int x = 0;
 
-	/*
-    cout << "Size of int: " << sizeof(int) << endl;
-    cout << "Size of float: " << sizeof(float) << endl;
-    long i = 291000000;
-    while(true){
-        int* test = new int[i];
-        cerr << i << endl;
-        free(test);
-        i+=100000;
-    }
-    */
-    
+	try{
+	while(true){
+		volatile Myint* m = new Myint(5);
+		if(x%10000 == 0)
+			cerr << x << endl;
+		x++;
+	}
+	}catch(bad_alloc& ba){
+		cerr << x << endl;
+	}
     if(argc == 2){
         inimgfn = argv[1];
     }
@@ -69,7 +82,7 @@ int main(int argc, char* argv[]){
     
     double q = stoptime();
     
-	raster_data = readImageC(hDataset);
+	raster_data = readImageC2(hDataset);
     times[0] = stoptime() - q;
 
     cerr << "Image read\n";
@@ -77,7 +90,13 @@ int main(int argc, char* argv[]){
     assert(raster_data!=NULL);
 
     q = stoptime();
-	original_tree = Quadtree::constructTree(raster_data,xsize,ysize);
+    cerr << "Constructing\n";
+    try{
+    	original_tree = Quadtree::constructTree(raster_data,xsize,ysize);
+    }catch(bad_alloc& ba){
+    	cerr << ba.what() << endl;
+    	exit(1);
+    }
     q = stoptime() - q;
     
     cerr << "Tree constructed\n";
@@ -85,10 +104,8 @@ int main(int argc, char* argv[]){
 	
     assert(original_tree!=NULL);
 
-    cerr << "passed assert\n";
     q = stoptime();
 	original_tree->Prune();
-	cerr << "pruned\n";
     times[2] = stoptime() - q;
     
     float** newimg2 = original_tree->RebuildImage();
@@ -97,7 +114,6 @@ int main(int argc, char* argv[]){
 	createImageC(hDataset,newimg2,xsize,ysize,outimgfn);
     q = stoptime() - q;
 
-    cerr << "output\n";
 	times[3]+= q;
 
     ofstream out;
@@ -137,7 +153,7 @@ void initializeC(){
 }
 
 /*
- * X Y Width Height Value Level
+ * File layout: X Y Width Height Value Level
  */
 float** readNodeFile(string filename){
 	fprintf(stderr,"Reading node file: %s\n",filename.c_str());
@@ -231,18 +247,14 @@ float** readImageC(GDALDatasetH gdalData){
         myData = new float*[x];
         for(i=0;i<x;i++) myData[i] = new float[y];
 
-        cerr << "myData finished\n";
         cerr << "x*y = " << x*y << endl;
-        cerr << "Size of float: " << sizeof(float) << ", " << sizeof(float)*x*y << endl;
         //byte* test = new byte[x*y];
-        cerr << "bytes worked\n";
         pafScanline = new float[x*y];
-        cerr << "scanline finished\n";
+        cerr << "here\n";
         for(i=0;i<x;i++)
             for(j=0;j<y;j++)
                 myData[i][j] = emptyValue;
 
-        cerr << "IO\n";
         GDALRasterIO(gdalBand,GF_Read,0,0,x,y,
                 pafScanline,x,y,GDT_Float32,0,0);
 
@@ -252,6 +264,62 @@ float** readImageC(GDALDatasetH gdalData){
             }
         }
 
+        delete [] pafScanline;
+
+        return myData;
+    }
+    catch(bad_alloc& ba){
+        cerr << ba.what() << endl;
+        exit(1);
+    }
+}
+float** readImageC2(GDALDatasetH gdalData){
+
+    try{
+        int i,j,x,y;
+        float** myData;
+
+        cerr << "Getting bands\n";
+        GDALRasterBandH gdalBand = GDALGetRasterBand(gdalData,1);
+
+        if(gdalBand == NULL){
+            cerr << "error null band\n"; exit(1);
+        }
+
+        cerr << "Getting no data value\n";
+        emptyValue = GDALGetRasterNoDataValue(gdalBand, NULL);
+
+        x = GDALGetRasterBandXSize(gdalBand);
+        y = GDALGetRasterBandYSize(gdalBand);
+
+
+        cerr << "x,y " << x << "," << y << endl;
+        myData = new float*[x];
+        for(i=0;i<x;i++) myData[i] = new float[y];
+
+        cerr << "x*y = " << x*y << endl;
+
+        for(i=0;i<x;i++)
+            for(j=0;j<y;j++)
+                myData[i][j] = emptyValue;
+
+        float* pafScanline = new float[x];
+
+        for(i=0;i<y-1;i++){
+            GDALRasterIO(gdalBand,GF_Read,0,i,x,1,
+                    pafScanline,x,1,GDT_Float32,0,0);
+            for(j=0;j<x;j++){
+            	myData[j][i] = pafScanline[j];
+            }
+        }
+
+/*
+        for(j=0;j<y;++j){
+            for(int k=0;k<x;++k){
+                myData[k][j] = pafScanline[j*x+k];
+            }
+        }
+*/
         delete [] pafScanline;
 
         return myData;
