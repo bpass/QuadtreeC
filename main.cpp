@@ -1,5 +1,11 @@
 #include "main.h"
+#include <chrono>
 //#include "Windows.h"
+
+using std::chrono::duration_cast;
+using std::chrono::microseconds;
+using std::chrono::steady_clock;
+using std::chrono::nanoseconds;
 
 //string			inimgfn = "Images\\denvermsa.img";
 //string 			inimgfn = "Images\\downtown.img";
@@ -51,23 +57,13 @@ QT_ERR dumpToFile(float** img,int w, int h, string fname){
     return (QT_ERR)NO_ERROR;
 }
 
-#include "Myint.h"
 /**
  * \brief This is the main function that creates a quadtree.
  */
 int main(int argc, char* argv[]){
-	int x = 0;
 
-	try{
-	while(true){
-		volatile Myint* m = new Myint(5);
-		if(x%10000 == 0)
-			cerr << x << endl;
-		x++;
-	}
-	}catch(bad_alloc& ba){
-		cerr << x << endl;
-	}
+	cout << "done\n"; exit(1);
+
     if(argc == 2){
         inimgfn = argv[1];
     }
@@ -80,17 +76,22 @@ int main(int argc, char* argv[]){
 
     initializeC();
     
+    //chrono::time_point<chrono::high_resolution_clock> start, end;
+    //start = chrono::high_resolution_clock::now();
     double q = stoptime();
     
-	raster_data = readImageC2(hDataset);
+	raster_data = readImageC(hDataset);
     times[0] = stoptime() - q;
+    //end = chrono::high_resolution_clock::now();
 
-    cerr << "Image read\n";
+    //cerr << duration_cast<nanoseconds>(end-start).count() << endl;
+
+    //cerr << "Image read\n";
     
     assert(raster_data!=NULL);
 
+
     q = stoptime();
-    cerr << "Constructing\n";
     try{
     	original_tree = Quadtree::constructTree(raster_data,xsize,ysize);
     }catch(bad_alloc& ba){
@@ -99,7 +100,7 @@ int main(int argc, char* argv[]){
     }
     q = stoptime() - q;
     
-    cerr << "Tree constructed\n";
+    //cerr << "Tree constructed\n";
 	times[1] = q;
 	
     assert(original_tree!=NULL);
@@ -107,10 +108,11 @@ int main(int argc, char* argv[]){
     q = stoptime();
 	original_tree->Prune();
     times[2] = stoptime() - q;
-    
+
+    q = stoptime();
     float** newimg2 = original_tree->RebuildImage();
     
-    q = stoptime();
+    //q = stoptime();
 	createImageC(hDataset,newimg2,xsize,ysize,outimgfn);
     q = stoptime() - q;
 
@@ -119,10 +121,11 @@ int main(int argc, char* argv[]){
     ofstream out;
     out.open("QuadtreeResults.txt",ios::app);
 
-    out << "Reading: " << times[0] << endl <<
-            "Construction: " << times[1] << endl <<
-            "Reclass/Pruning: " << times[2] << endl <<
-            "Output: " << times[3] << endl << endl;
+    out << times[0] << " , "
+                 << times[1] << " , "
+                 << times[2] << " , "
+                 << times[3] << " , "
+                 << times[0] + times[1] + times[2] + times[3] << endl;
             
     cerr << "Reading: " << times[0] << endl <<
             "Construction: " << times[1] << endl <<
@@ -229,28 +232,24 @@ float** readImageC(GDALDatasetH gdalData){
         float *pafScanline;
         float** myData;
 
-        cerr << "Getting bands\n";
         GDALRasterBandH gdalBand = GDALGetRasterBand(gdalData,1);
 
         if(gdalBand == NULL){
             cerr << "error null band\n"; exit(1);
         }
         
-        cerr << "Getting no data value\n";
         emptyValue = GDALGetRasterNoDataValue(gdalBand, NULL);
 
         x = GDALGetRasterBandXSize(gdalBand);
         y = GDALGetRasterBandYSize(gdalBand);
 
         
-        cerr << "x,y " << x << "," << y << endl;
+        //cerr << "x,y " << x << "," << y << endl;
         myData = new float*[x];
         for(i=0;i<x;i++) myData[i] = new float[y];
 
-        cerr << "x*y = " << x*y << endl;
-        //byte* test = new byte[x*y];
+        //cerr << "x*y = " << x*y << endl;
         pafScanline = new float[x*y];
-        cerr << "here\n";
         for(i=0;i<x;i++)
             for(j=0;j<y;j++)
                 myData[i][j] = emptyValue;
@@ -332,7 +331,6 @@ float** readImageC2(GDALDatasetH gdalData){
 
 QT_ERR createImageC(GDALDatasetH poSrcDS, float** data, int w, int h, string fname){
 
-	//fprintf(stderr,"Creating GDAL image %s\n",fname.c_str());
 	GDALDriverH gdalDriver = GDALGetDriverByName(outformat);
     if( gdalDriver == NULL ) return (QT_ERR)READ_ERROR;
 
@@ -361,7 +359,6 @@ QT_ERR createImageC(GDALDatasetH poSrcDS, float** data, int w, int h, string fna
     }
     
     for (int i=0; i<w; i++) {
-        //cerr << "Writing band " << i << " of " << w << endl;
         GDALRasterIO(band,
                      GF_Write,
                      i,0,
